@@ -163,7 +163,7 @@ return <tr key={index}>
 </td>
 <td className='py-2 border border-white text-center'>
 <div className='flex items-center justify-center'>
-{item.password}
+{"*".repeat(item.password.length)}
 <div className='size-7 cursor-pointer mx-3' onClick={()=>{copyText(item.password)}}>      <img  src="icons\copy icon.png"   width={20} alt="copy icon" /></div>
 
 </div>
