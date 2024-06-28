@@ -106,7 +106,7 @@ transition= "Bounce"
 
 
         
-<div className="p-2 md:p-0 md:mycontainer ">
+<div className="p-2 md:p-0 md:mycontainer min-h-[88vh] ">
 <h1 className='text-4xl font-bold text-center'><span className='text-green-700 '>&lt;</span>
 Pass
 <span className='text-green-700 '>OP/&gt;</span></h1>
