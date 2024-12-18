@@ -106,11 +106,11 @@ transition= "Bounce"
 
 
         
-<div className="p-2 md:p-0 md:mycontainer min-h-[88vh] ">
-<h1 className='text-4xl font-bold text-center'><span className='text-green-700 '>&lt;</span>
+<div className="p-2 md:p-0 md:mycontainer   ">
+<div><h1 className=' sm:text-2xl lg:text-4xl   text-sm font-bold text-center'><span className='text-green-700 '>&lt;</span>
 Pass
 <span className='text-green-700 '>OP/&gt;</span></h1>
-<p className='text-green-900 text-lg text-center '>Your own Passworn Manager</p>
+<p className='text-green-900   sm:text-base lg:text-lg   text-sm text-center '>Your own Passworn Manager</p></div>
 
 <div className='text-black flex flex-col items-center p-4 gap-8'>
 <input placeholder='Enter Website URL' id='site' name='site' value={form.site} onChange={handleChange} className='rounded-full border border-green-500 p-4 py-1 w-full '  type="text" />
@@ -124,14 +124,14 @@ Pass
 
 </div>
 
-<button onClick={savePassword} className=' w-fit gap-2 flex border border-green-900 justify-center items-center hover:bg-green-400 px-5 py-2 bg-green-500 rounded-full'>
-Save Password
+<button onClick={savePassword} className=' w-fit gap-2 flex border border-green-900 justify-center items-center hover:bg-green-300 px-5 py-2 bg-green-200 rounded-full'>
+<span className='sm:text-base lg:text-lg     text-sm'>Save Password</span>
 </button>
 </div>
 <div className='passwords'> 
-<h2 className=' font-bold text-2xl py-4'>Your Passwords</h2>
+<h2 className=' font-bold  sm:text-lg lg:text-xl text-base py-4'>Your Passwords</h2>
 {passwordArray.length===0 && <div>No Passwords to show</div>}
-{passwordArray.length!=0 &&<table className="table-auto w-full bg-green-100  overflow-hidden mb-10 rounded-md">
+{passwordArray.length!=0 &&<table className="table-auto w-full bg-green-100  overflow-hidden mb-10 rounded-md  sm:text-base lg:text-lg text-sm">
   <thead className=' bg-green-800 text-white'>
     <tr>
       <th className='py-2'>WebSite</th>
@@ -163,7 +163,7 @@ return <tr key={index}>
 </td>
 <td className='py-2 border border-white text-center'>
 <div className='flex items-center justify-center'>
-{"*".repeat(item.password.length)}
+{item.password}
 <div className='size-7 cursor-pointer mx-3' onClick={()=>{copyText(item.password)}}>      <img  src="icons\copy icon.png"   width={20} alt="copy icon" /></div>
 
 </div>

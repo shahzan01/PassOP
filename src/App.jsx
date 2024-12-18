@@ -15,10 +15,10 @@ function App() {
 
 
 
-     <NavBar />
-     <div className=" bg-white bg-[radial-gradient(60%_120%_at_50%_50%,hsla(0,0%,100%,0)_0,rgba(142,242,20,.2)_100%)]">
-     <Manager />
-     <Footer />
+     <div className=" bg-[radial-gradient(60%_120%_at_50%_50%,hsla(0,0%,100%,0)_0,rgba(142,242,20,.2)_100%)] min-h-screen flex flex-col  justify-between">
+  <div className=' p-0 m-0'>   <NavBar /></div>
+     <div><Manager /></div>
+    <div> <Footer /></div>
      
      
      </div>
