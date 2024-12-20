@@ -3,7 +3,7 @@ import Password from '../db.js';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 const router = express.Router();
-dotenv.config();
+dotenv.config({path:"../../.env"});
 
 // Secret Key for encryption/decryption
 const SECRET_KEY = process.env.SECRET_KEY;

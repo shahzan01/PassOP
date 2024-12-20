@@ -5,8 +5,7 @@ import  cors from 'cors';
 
 import passwordRoutes from './routes/passwordRoutes.js';
 
-
-dotenv.config();
+dotenv.config({path:"../../.env"});
 const app = express();
 
 app.use(cors());
