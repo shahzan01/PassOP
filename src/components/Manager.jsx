@@ -16,7 +16,7 @@ const EditPasswordSave=useRef({edit:false,id:null});
   // Fetch passwords from MongoDB
   const fetchPasswords = async () => {
     try {
-      const response = await axios.get('http://pass-op-eight.vercel.app/api/passwords/all', {
+      const response = await axios.get('http://localhost:5000/api/passwords/all', {
         headers: {
           token: ` ${localStorage.getItem("token")}`, // Add JWT token
           "Content-Type": "application/json", // Optional: Specify content type
@@ -61,7 +61,7 @@ else{
      
     try {
       const temp={ url:form.url, username:form.username, password:form.password }
-      await axios.post('http://pass-op-eight.vercel.app/api/passwords/add', temp, {
+      await axios.post('http://localhost:5000/api/passwords/add', temp, {
         headers: {
           token: ` ${localStorage.getItem("token")}`, // Add JWT token
           "Content-Type": "application/json", // Optional: Specify content type
@@ -83,7 +83,7 @@ else{
    
     if (item.edit || window.confirm('Are you sure you want to delete this password?')) {
       try {
-        await axios.delete(`http://pass-op-eight.vercel.app/api/passwords/delete/${item.id}`, {
+        await axios.delete(`http://localhost:5000/api/passwords/delete/${item.id}`, {
           headers: {
             token: ` ${localStorage.getItem("token")}`, // Add JWT token
             "Content-Type": "application/json", // Optional: Specify content type

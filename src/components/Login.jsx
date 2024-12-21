@@ -23,7 +23,7 @@ const UserAuth = () => {
 
     if (isSignUp) {
       try {
-        const response = await axios.post("http://pass-op-eight.vercel.app/api/user/signup", formData);
+        const response = await axios.post("http://localhost:5000/api/user/signup", formData);
         console.log(response.data)
         setMessage("Signed up successfully! Please login.");
 setFormData({email:"",password:""});
@@ -34,7 +34,7 @@ setIsSignUp(false)
       }
     } else {
       try {
-        const response = await axios.post("http://pass-op-eight.vercel.app/api/user/login", formData);
+        const response = await axios.post("http://localhost:5000/api/user/login", formData);
         const token = response.data.token;
 if(!token){
   console.error("Signup Error:", );
@@ -56,7 +56,7 @@ if(!token){
 
   const handleGuestLogin = async () => {
     try {
-      const response = await axios.post("http://pass-op-eight.vercel.app/api/user/login", guestCredentials);
+      const response = await axios.post("http://localhost:5000/api/user/login", guestCredentials);
       const token = response.data.token;
 if(!token){
 console.error("Signup Error:", );
