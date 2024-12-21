@@ -8,7 +8,7 @@ const Manager = () => {
   const passwordRef = useRef();
   const [form, setForm] = useState({ url: '', username: '', password: '' });
   const [passwordArray, setPasswordArray] = useState([]);
-
+ const [Password, setPassword] = useState(false);
   useEffect(() => {
     fetchPasswords();
   }, []);
@@ -16,7 +16,12 @@ const EditPasswordSave=useRef({edit:false,id:null});
   // Fetch passwords from MongoDB
   const fetchPasswords = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/passwords/all');
+      const response = await axios.get('http://localhost:5000/api/passwords/all', {
+        headers: {
+          token: ` ${localStorage.getItem("token")}`, // Add JWT token
+          "Content-Type": "application/json", // Optional: Specify content type
+        },
+      });
     
       setPasswordArray(response.data);
     } catch (error) {
@@ -27,6 +32,7 @@ const EditPasswordSave=useRef({edit:false,id:null});
   // Toggle password visibility
   const showPassword = () => {
     passwordRef.current.type = passwordRef.current.type === 'password' ? 'text' : 'password';
+    setPassword(!Password)
   };
 
   // Save password to MongoDB
@@ -55,7 +61,12 @@ else{
      
     try {
       const temp={ url:form.url, username:form.username, password:form.password }
-      await axios.post('http://localhost:5000/api/passwords/add', temp);
+      await axios.post('http://localhost:5000/api/passwords/add', temp, {
+        headers: {
+          token: ` ${localStorage.getItem("token")}`, // Add JWT token
+          "Content-Type": "application/json", // Optional: Specify content type
+        },
+      });
       fetchPasswords(); // Fetch updated password list
       setForm({ url: '', username: '', password: '' }); // Clear form
     } catch (error) {
@@ -72,7 +83,12 @@ else{
    
     if (item.edit || window.confirm('Are you sure you want to delete this password?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/passwords/delete/${item.id}`);
+        await axios.delete(`http://localhost:5000/api/passwords/delete/${item.id}`, {
+          headers: {
+            token: ` ${localStorage.getItem("token")}`, // Add JWT token
+            "Content-Type": "application/json", // Optional: Specify content type
+          },
+        });
         fetchPasswords(); // Fetch updated password list
       } catch (error) {
         console.error('Error deleting password:', error);
@@ -145,9 +161,13 @@ EditPasswordSave.current.id=passwordToEdit;
                 className="rounded-full border border-green-500 p-4 py-1 w-full"
                 type="password"
               />
-              <span className="absolute right-[3px] cursor-pointer top-[3px]" onClick={showPassword}>
-                <img width={26} className="p-1" src="icons/eye.png" alt="eye" />
-              </span>
+              <button className="absolute right-[3px] cursor-pointer top-[3px]" onClick={showPassword}>
+              {Password ? (
+                <img width={26} className="p-1" src="../icons/eye.png" alt="eye" />
+              ) : (
+                <img width={26} className="p-1" src="../icons/hidden.png" alt="eye" />
+              )}
+              </button>
             </div>
           </div>
           <button
@@ -177,7 +197,7 @@ EditPasswordSave.current.id=passwordToEdit;
                       <div className="flex items-center justify-center">
                         <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
                         <div className="size-7 cursor-pointer mx-3" onClick={() => copyText(item.url)}>
-                          <img src="icons/copy icon.png" width={20} alt="copy icon" />
+                          <img src="../icons/copy icon.png" width={20} alt="copy icon" />
                         </div>
                       </div>
                     </td>
@@ -185,7 +205,7 @@ EditPasswordSave.current.id=passwordToEdit;
                       <div className="flex items-center justify-center">
                         {item.username}
                         <div className="size-7 cursor-pointer mx-3" onClick={() => copyText(item.username)}>
-                          <img src="icons/copy icon.png" width={20} alt="copy icon" />
+                          <img src="../icons/copy icon.png" width={20} alt="copy icon" />
                         </div>
                       </div>
                     </td>
@@ -193,7 +213,7 @@ EditPasswordSave.current.id=passwordToEdit;
                       <div className="flex items-center justify-center">
                       {"*".repeat(item.password.length)}
                         <div className="size-7 cursor-pointer mx-3" onClick={() => copyText(item.password)}>
-                          <img src="icons/copy icon.png" width={20} alt="copy icon" />
+                          <img src="../icons/copy icon.png" width={20} alt="copy icon" />
                         </div>
                       </div>
                     </td>

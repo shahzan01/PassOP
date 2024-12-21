@@ -1,7 +1,10 @@
 import express from 'express';
-import Password from '../db.js';
+import {Password} from '../db.js';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
+import { userMiddleware } from '../middelwares/user.js';
+import { userModel } from '../db.js';
+import { populate } from 'dotenv';
 const router = express.Router();
 dotenv.config({path:"../../.env"});
 
@@ -30,15 +33,19 @@ const decrypt = (text) => {
 };
 
 // Save password (POST)
-router.post('/add', async (req, res) => {
-
+router.post('/add',userMiddleware, async (req, res) => {
+const user=req.user
   const { url, username, password } = req.body;
 
   try {
     const encryptedPassword = encrypt(password);
     const newPassword = new Password({ url, username, password: encryptedPassword });
 
-    await newPassword.save();
+   const savedPassword= await newPassword.save();
+const userData=await userModel.findById(user.id);
+userData.UserPasswords.push(savedPassword._id)
+await userData.save()
+
 
     res.status(201).json({ message: 'Password saved successfully' });
   } catch (error) {
@@ -47,26 +54,38 @@ router.post('/add', async (req, res) => {
 });
 
 // Get all passwords (GET)
-router.get('/all', async (req, res) => {
+router.get('/all',userMiddleware, async (req, res) => {
+const user=req.user
+
   try {
-    const passwords = await Password.find();
+    const userdata = await userModel.findById(user.id).populate("UserPasswords");
+
+
+    const passwords = userdata.UserPasswords
     const decryptedPasswords = passwords.map((entry) => ({
       id: entry._id,
       url: entry.url,
       username: entry.username,
       password: decrypt(entry.password),
     }));
+   
     res.json(decryptedPasswords);
-  } catch (error) {
+  }
+  catch (error) {
     res.status(500).json({ error: error.message });
   }
+
 });
 
 // Delete password (DELETE)
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id',userMiddleware, async (req, res) => {
+  const user=req.user
   const { id } = req.params;
 
   try {
+    const userdata = await userModel.findById(user.id);
+    userdata.UserPasswords.pop(id)
+    await userdata.save()
     await Password.findByIdAndDelete(id);
     res.status(200).json({ message: 'Password deleted successfully' });
   } catch (error) {
@@ -75,7 +94,7 @@ router.delete('/delete/:id', async (req, res) => {
 });
 
 // Edit password (PUT)
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id',userMiddleware, async (req, res) => {
   const { id } = req.params;
   const { url, username, password } = req.body;
 
